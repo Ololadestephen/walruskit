@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@walruskit/core": ["packages/core/src/index.ts"],
+      "@walruskit/crypto": ["packages/crypto/src/index.ts"],
+      "@walruskit/walrus": ["packages/walrus/src/index.ts"],
+      "@walruskit/tatum": ["packages/tatum/src/index.ts"],
+      "@walruskit/sui": ["packages/sui/src/index.ts"],
+      "@walruskit/sdk": ["packages/sdk/src/index.ts"],
+      "@walruskit/policies": ["packages/policies/src/index.ts"],
+      "@walruskit/headless": ["packages/headless/src/index.ts"],
+      "@walruskit/react": ["packages/react/src/index.ts"],
+      "@walruskit/ui": ["packages/ui/src/index.ts"],
+      "@walruskit/next": ["packages/next/src/index.ts"],
+      "@walruskit/verifier": ["packages/verifier/src/index.ts"],
+      "@walruskit/wallet-sui": ["packages/wallet-sui/src/index.ts"],
+      "@walruskit/docs": ["packages/docs/src/index.ts"],
+      "@walruskit/agent": ["packages/agent/src/index.ts"]
+    },
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "outDir": "dist"
+  }
+}

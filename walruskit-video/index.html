@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #f8fbff;
+        color: #0f172a;
+        font-family: sans-serif;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 18% 18%, rgba(37, 99, 235, 0.09), transparent 24%),
+          radial-gradient(circle at 78% 80%, rgba(15, 23, 42, 0.06), transparent 28%),
+          linear-gradient(180deg, #ffffff 0%, #fbfdff 54%, #f4f8fc 100%);
+      }
+
+      .product-backdrop {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .dot-field {
+        position: absolute;
+        inset: 0;
+        opacity: 0.42;
+        background-image: radial-gradient(circle, rgba(37, 99, 235, 0.18) 1.2px, transparent 1.2px);
+        background-size: 34px 34px;
+        mask-image: radial-gradient(circle at 50% 44%, black 0%, transparent 72%);
+      }
+
+      .capsule-halo {
+        position: absolute;
+        right: -230px;
+        top: 92px;
+        width: 830px;
+        height: 830px;
+        border: 1px solid rgba(37, 99, 235, 0.16);
+        border-radius: 50%;
+      }
+
+      .capsule-halo::before,
+      .capsule-halo::after {
+        position: absolute;
+        border: 1px solid rgba(37, 99, 235, 0.12);
+        border-radius: 50%;
+        content: "";
+      }
+
+      .capsule-halo::before {
+        inset: 110px;
+      }
+
+      .capsule-halo::after {
+        inset: 230px;
+        background: rgba(255, 255, 255, 0.42);
+      }
+
+      .diagonal-line {
+        position: absolute;
+        width: 900px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.2), transparent);
+        transform: rotate(-28deg);
+      }
+
+      .line-a {
+        left: -160px;
+        top: 230px;
+      }
+
+      .line-b {
+        right: -120px;
+        bottom: 240px;
+      }
+
+      .clip {
+        position: absolute;
+        inset: 0;
+        padding: 96px 132px;
+        opacity: 0;
+      }
+
+      .scene {
+        display: grid;
+        align-content: center;
+      }
+
+      .intro-scene {
+        align-content: center;
+        justify-items: start;
+      }
+
+      .intro-scene .brand-row {
+        margin-bottom: 34px;
+      }
+
+      .intro-scene h1 {
+        max-width: 920px;
+        font-size: 122px;
+      }
+
+      .intro-scene .lede {
+        max-width: 780px;
+        color: #475569;
+        font-size: 38px;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 0.86fr 1.14fr;
+        gap: 74px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        margin-bottom: 26px;
+        color: #2563eb;
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 1140px;
+        font-size: 106px;
+        font-weight: 820;
+        line-height: 0.96;
+        letter-spacing: -0.06em;
+      }
+
+      h2 {
+        max-width: 920px;
+        font-size: 70px;
+        font-weight: 780;
+        line-height: 1.02;
+        letter-spacing: -0.05em;
+      }
+
+      h3 {
+        color: #172033;
+        font-size: 34px;
+        line-height: 1.12;
+        letter-spacing: -0.03em;
+      }
+
+      p {
+        color: #64748b;
+        font-size: 34px;
+        line-height: 1.45;
+      }
+
+      .lede {
+        max-width: 900px;
+        margin-top: 34px;
+      }
+
+      .brand-row {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 46px;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 84px;
+        height: 84px;
+        place-items: center;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 20px;
+        background: #0f172a;
+        box-shadow: 0 24px 70px rgba(15, 23, 42, 0.14);
+      }
+
+      .brand-mark img {
+        width: 62px;
+        height: 62px;
+        border-radius: 16px;
+        object-fit: cover;
+      }
+
+      .brand-name {
+        color: #172033;
+        font-size: 42px;
+        font-weight: 760;
+        letter-spacing: 0.2em;
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        margin-top: 54px;
+      }
+
+      .pill {
+        border: 1px solid rgba(37, 99, 235, 0.16);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.86);
+        padding: 16px 24px;
+        color: #1e3a8a;
+        font-size: 24px;
+        font-weight: 700;
+        box-shadow: 0 16px 44px rgba(15, 23, 42, 0.06);
+      }
+
+      .panel {
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: 0 26px 80px rgba(15, 23, 42, 0.09);
+        backdrop-filter: blur(16px);
+      }
+
+      .flow-step span {
+        display: block;
+        margin-bottom: 18px;
+        color: #2563eb;
+        font-size: 22px;
+        font-weight: 820;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .flow-step p {
+        margin-top: 18px;
+        font-size: 26px;
+        line-height: 1.42;
+      }
+
+      .architecture {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 18px;
+        align-items: stretch;
+        margin-top: 52px;
+      }
+
+      .flow-step {
+        position: relative;
+        min-height: 220px;
+        padding: 26px;
+      }
+
+      .flow-step::after {
+        position: absolute;
+        top: 50%;
+        right: -22px;
+        width: 26px;
+        height: 2px;
+        background: linear-gradient(90deg, #2563eb, rgba(37, 99, 235, 0.2));
+        content: "";
+      }
+
+      .flow-step:last-child::after {
+        display: none;
+      }
+
+      .terminal {
+        overflow: hidden;
+        padding: 0;
+      }
+
+      .terminal.large {
+        min-height: 560px;
+      }
+
+      .terminal-title {
+        margin-left: auto;
+        color: #64748b;
+        font-size: 20px;
+        font-weight: 800;
+      }
+
+      .terminal-bar {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        height: 64px;
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+        padding: 0 26px;
+      }
+
+      .dot {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+      }
+
+      .red {
+        background: #f87171;
+      }
+
+      .amber {
+        background: #fbbf24;
+      }
+
+      .green {
+        background: #34d399;
+      }
+
+      pre {
+        padding: 38px 44px 44px;
+        color: #172033;
+        font-family: monospace;
+        font-size: 28px;
+        line-height: 1.62;
+        white-space: pre-wrap;
+      }
+
+      .typing-grid {
+        display: grid;
+        grid-template-columns: 1fr 0.86fr;
+        gap: 34px;
+        align-items: stretch;
+        margin-top: 48px;
+      }
+
+      .typed-panel {
+        padding: 32px;
+      }
+
+      .typed-panel h3 {
+        margin-bottom: 22px;
+        font-size: 40px;
+      }
+
+      .typed-panel p {
+        font-size: 27px;
+      }
+
+      .capsule-card {
+        display: grid;
+        gap: 18px;
+        max-width: 720px;
+        margin-top: 42px;
+      }
+
+      .capsule-row {
+        display: grid;
+        grid-template-columns: 210px 1fr;
+        gap: 18px;
+        align-items: center;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.84);
+        padding: 20px 24px;
+        color: #334155;
+        font-size: 25px;
+        font-weight: 720;
+      }
+
+      .capsule-row span {
+        color: #2563eb;
+        font-size: 18px;
+        font-weight: 840;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .proof-ok {
+        color: #059669;
+      }
+
+      .proof-wait {
+        color: #b45309;
+      }
+
+      .doc-window {
+        min-height: 610px;
+        padding: 34px;
+      }
+
+      .doc-layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 34px;
+        height: 100%;
+      }
+
+      .doc-nav {
+        border-right: 1px solid rgba(15, 23, 42, 0.08);
+        padding-right: 24px;
+      }
+
+      .doc-nav div {
+        height: 44px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        background: rgba(37, 99, 235, 0.08);
+      }
+
+      .doc-nav div:first-child {
+        background: rgba(37, 99, 235, 0.18);
+      }
+
+      .doc-content h3 {
+        margin-bottom: 24px;
+        font-size: 46px;
+      }
+
+      .doc-content p {
+        max-width: 860px;
+        margin-bottom: 28px;
+        font-size: 28px;
+      }
+
+      .doc-line {
+        width: 100%;
+        height: 18px;
+        margin-bottom: 16px;
+        border-radius: 999px;
+        background: rgba(37, 99, 235, 0.09);
+      }
+
+      .doc-line.short {
+        width: 64%;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="132" data-width="1920" data-height="1080">
+      <div class="product-backdrop" aria-hidden="true">
+        <div class="dot-field" data-layout-allow-overflow=""></div>
+        <div class="capsule-halo" data-layout-allow-overflow=""></div>
+        <div class="diagonal-line line-a" data-layout-allow-overflow=""></div>
+        <div class="diagonal-line line-b" data-layout-allow-overflow=""></div>
+        
+      </div>
+
+      <section id="scene-intro" class="clip scene intro-scene" data-start="0" data-duration="9" data-track-index="0">
+        <div class="brand-row">
+          <div class="brand-mark">
+            <img src="assets/walruskit-icon.png" alt="">
+          </div>
+          <div class="brand-name">RECOVERKIT</div>
+        </div>
+        <h1>Introducing WalrusKit.</h1>
+        <p class="lede">
+          Programmable recovery for encrypted Walrus data on Sui.
+        </p>
+      </section>
+
+      <section id="scene-problem" class="clip scene" data-start="9" data-duration="17" data-track-index="1">
+        <p class="eyebrow">The problem</p>
+        <h2>Walrus stores blobs. Apps still need recovery infrastructure.</h2>
+        <div class="typing-grid">
+          <div class="panel terminal large">
+            <div class="terminal-bar">
+              <span class="dot red"></span>
+              <span class="dot amber"></span>
+              <span class="dot green"></span>
+              <span class="terminal-title">problem.scan</span>
+            </div>
+            <pre><span class="proof-wait">detecting missing infra...</span>
+encryption       manual
+walrus upload    custom
+sui policy       custom
+tatum reads      custom
+recovery state   custom
+
+<span class="proof-wait">result:</span> every team rebuilds the same recovery stack</pre>
+          </div>
+          <article class="panel typed-panel">
+            <span>The missing layer</span>
+            <h3>Encrypted data needs programmable recovery.</h3>
+            <p>Who can recover it, when recovery can start, and what conditions must pass.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="scene-solution" class="clip scene" data-start="26" data-duration="16" data-track-index="2">
+        <p class="eyebrow">The kit</p>
+        <h2>WalrusKit turns that flow into reusable developer infrastructure.</h2>
+        <div class="capsule-card">
+          <div class="capsule-row"><span>Store</span><strong>Ciphertext on Walrus</strong></div>
+          <div class="capsule-row"><span>Anchor</span><strong>Recovery policy on Sui</strong></div>
+          <div class="capsule-row"><span>Read</span><strong>Capsule state through Tatum RPC</strong></div>
+          <div class="capsule-row"><span>Expose</span><strong>SDK, CLI, UI, MCP, and Agent Kit</strong></div>
+        </div>
+      </section>
+
+      <section id="scene-architecture" class="clip scene" data-start="42" data-duration="22" data-track-index="3">
+        <p class="eyebrow">Architecture</p>
+        <h2>Encrypt locally. Store on Walrus. Enforce on Sui. Read through Tatum.</h2>
+        <div class="architecture">
+          <article class="panel flow-step">
+            <span>01</span>
+            <h3>App runtime</h3>
+            <p>Plaintext exists only before encryption.</p>
+          </article>
+          <article class="panel flow-step">
+            <span>02</span>
+            <h3>Walrus</h3>
+            <p>Ciphertext blob is stored decentrally.</p>
+          </article>
+          <article class="panel flow-step">
+            <span>03</span>
+            <h3>Sui capsule</h3>
+            <p>Blob ID, hash, size, and recovery policy are anchored.</p>
+          </article>
+          <article class="panel flow-step">
+            <span>04</span>
+            <h3>Tatum RPC</h3>
+            <p>Apps read package and capsule state.</p>
+          </article>
+          <article class="panel flow-step">
+            <span>05</span>
+            <h3>Verifier</h3>
+            <p>Downloaded bytes are checked before recovery.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="scene-policy" class="clip scene" data-start="64" data-duration="14" data-track-index="4">
+        <p class="eyebrow">Recovery policy</p>
+        <h2>A Sui Move capsule controls when recovery is allowed.</h2>
+        <div class="pill-row">
+          <span class="pill">Owner heartbeat</span>
+          <span class="pill">Beneficiary request</span>
+          <span class="pill">Guardian threshold</span>
+          <span class="pill">Final delay</span>
+          <span class="pill">Owner cancellation</span>
+        </div>
+      </section>
+
+      <section id="scene-packages" class="clip scene" data-start="78" data-duration="16" data-track-index="5">
+        <p class="eyebrow">Package surface</p>
+        <h2>19 packages, split by responsibility.</h2>
+        <div class="typing-grid">
+          <div class="panel terminal large">
+            <div class="terminal-bar">
+              <span class="dot red"></span>
+              <span class="dot amber"></span>
+              <span class="dot green"></span>
+              <span class="terminal-title">walruskit packages</span>
+            </div>
+            <pre><span class="proof-ok">installing toolkit surface...</span>
+@walruskit/sdk        application API
+@walruskit/walrus     encrypted blob storage
+@walruskit/tatum      Sui RPC reads
+@walruskit/move       recovery policy
+@walruskit/verifier   blob integrity
+@walruskit/cli        proof commands
+@walruskit/mcp        agent tools
+
+<span class="proof-ok">ready:</span> 19 packages</pre>
+          </div>
+          <article class="panel typed-panel">
+            <span>Built for reuse</span>
+            <h3>Use the layer your app needs.</h3>
+            <p>Adopt the SDK, Move policy, verifier, CLI, MCP server, or UI components independently.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="scene-agents" class="clip scene" data-start="94" data-duration="12" data-track-index="6">
+        <p class="eyebrow">Agent Kit + MCP</p>
+        <h2>Agents can explain recovery state without seeing secrets.</h2>
+        <div class="typing-grid">
+          <div class="panel terminal large">
+            <div class="terminal-bar">
+              <span class="dot red"></span>
+              <span class="dot amber"></span>
+              <span class="dot green"></span>
+              <span class="terminal-title">agent.inspect(capsule)</span>
+            </div>
+            <pre>owner inactive        <span class="proof-ok">yes</span>
+recovery requested   <span class="proof-ok">yes</span>
+guardian approvals   <span class="proof-wait">1 / 2</span>
+final delay          waiting
+
+agent says:
+"Not yet. One more guardian approval is needed."</pre>
+          </div>
+          <article class="panel typed-panel">
+            <span>Safe by design</span>
+            <h3>The agent prepares actions. The wallet signs.</h3>
+            <p>No plaintext secrets, no private keys, no bypassing Sui policy.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="scene-proof" class="clip split" data-start="106" data-duration="10" data-track-index="7">
+        <div>
+          <p class="eyebrow">Live proof</p>
+          <h2>Verified from the terminal.</h2>
+          <p class="lede">
+            The scripts prove Walrus upload/download, Tatum RPC reads, Sui Move policy, and the full
+            recovery lifecycle.
+          </p>
+        </div>
+        <div class="panel terminal">
+          <div class="terminal-bar">
+            <span class="dot red"></span>
+            <span class="dot amber"></span>
+            <span class="dot green"></span>
+            <span class="terminal-title">proof.run</span>
+          </div>
+          <pre>npm run proof:walrus-tatum
+npm run capsule:demo-recovery
+
+<span class="proof-wait">owner active -&gt; request rejected</span>
+timeout passes -&gt; beneficiary requests
+guardian approves -&gt; final delay
+<span class="proof-ok">ready: yes</span></pre>
+        </div>
+      </section>
+
+      <section id="scene-docs" class="clip split" data-start="116" data-duration="8" data-track-index="8">
+        <div>
+          <p class="eyebrow">Docs and demo</p>
+          <h2>Built for developers to inspect and reuse.</h2>
+          <p class="lede">
+            The demo includes landing, quickstart, architecture, Walrus, Sui policy, Tatum RPC,
+            components, CLI, MCP, and Agent Kit pages.
+          </p>
+        </div>
+        <div class="panel doc-window">
+          <div class="doc-layout">
+            <div class="doc-nav">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <div class="doc-content">
+              <h3>WalrusKit Docs</h3>
+              <p>Programmable recovery for encrypted Walrus blobs on Sui.</p>
+              <div class="doc-line"></div>
+              <div class="doc-line"></div>
+              <div class="doc-line short"></div>
+              <div class="doc-line"></div>
+              <div class="doc-line short"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scene-close" class="clip scene" data-start="124" data-duration="8" data-track-index="9">
+        <p class="eyebrow">WalrusKit</p>
+        <h1>A reusable recovery layer for encrypted data apps on Sui.</h1>
+        <p class="lede">
+          Walrus storage. Sui policy. Tatum reads. MCP tools. One recovery toolkit.
+        </p>
+      </section>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+
+      const tl = gsap.timeline({ paused: true, defaults: { overwrite: "auto" } });
+      const scenes = [
+        "#scene-intro",
+        "#scene-problem",
+        "#scene-solution",
+        "#scene-architecture",
+        "#scene-policy",
+        "#scene-packages",
+        "#scene-agents",
+        "#scene-proof",
+        "#scene-docs",
+        "#scene-close",
+      ];
+
+      scenes.forEach((scene) => {
+        const el = document.querySelector(scene);
+        const start = Number(el.dataset.start);
+        const end = start + Number(el.dataset.duration);
+        tl.set(scene, { opacity: 1 }, start);
+        tl.set(scene, { opacity: 0 }, end);
+      });
+
+      tl.from(".brand-mark", { scale: 0.75, rotate: -8, duration: 0.8, ease: "back.out(1.7)" }, 0.25);
+      tl.to(".dot-field", { x: 20, y: -14, duration: 132, ease: "none" }, 0);
+      tl.to(".capsule-halo", { rotate: 8, scale: 1.04, duration: 132, ease: "none" }, 0);
+      tl.from("#scene-problem .terminal", { opacity: 0, y: 28, scale: 0.98, duration: 0.5 }, 11.2);
+      tl.from("#scene-problem .typed-panel", { opacity: 0, x: 24, duration: 0.5 }, 11.7);
+      tl.from("#scene-solution .capsule-row", { opacity: 0, x: -24, stagger: 0.12, duration: 0.45 }, 28.4);
+      tl.from("#scene-architecture .flow-step", { opacity: 0, x: -24, stagger: 0.18, duration: 0.55 }, 44.2);
+      tl.from("#scene-policy .pill", { opacity: 0, y: 18, stagger: 0.08, duration: 0.45 }, 66.4);
+      tl.from("#scene-packages .terminal", { opacity: 0, y: 28, scale: 0.98, duration: 0.5 }, 80.1);
+      tl.from("#scene-packages .typed-panel", { opacity: 0, x: 24, duration: 0.5 }, 80.6);
+      tl.from("#scene-agents .terminal", { opacity: 0, y: 28, scale: 0.98, duration: 0.5 }, 96);
+      tl.from("#scene-agents .typed-panel", { opacity: 0, x: 24, duration: 0.5 }, 96.5);
+      tl.from("#scene-proof .terminal", { opacity: 0, scale: 0.96, duration: 0.5 }, 107);
+      tl.from(".doc-window", { opacity: 0, x: 32, duration: 0.6 }, 117);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

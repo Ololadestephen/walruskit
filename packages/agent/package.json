@@ -1,0 +1,23 @@
+{
+  "name": "@walruskit/agent",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Agent policy helpers for encrypted Walrus recovery workflows.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@walruskit/headless": "0.1.0",
+    "@walruskit/sui": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

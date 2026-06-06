@@ -1,0 +1,25 @@
+{
+  "name": "walruskit-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "WalrusKit: programmable recovery for encrypted Walrus blobs on Sui, powered by Tatum RPC.",
+  "scripts": {
+    "build": "tsc -b packages/core packages/crypto packages/walrus packages/tatum packages/sui packages/sdk packages/policies packages/headless packages/react packages/ui packages/next packages/verifier packages/wallet-sui packages/docs packages/agent packages/cli packages/mcp packages/create-walruskit",
+    "typecheck": "tsc -b packages/core packages/crypto packages/walrus packages/tatum packages/sui packages/sdk packages/policies packages/headless packages/react packages/ui packages/next packages/verifier packages/wallet-sui packages/docs packages/agent packages/cli packages/mcp packages/create-walruskit --pretty",
+    "proof:walrus-tatum": "npm run build && node scripts/proof-walrus-tatum.mjs",
+    "proof:sui": "npm run build && node scripts/proof-sui.mjs",
+    "capsule:create": "npm run build && node scripts/create-capsule.mjs",
+    "capsule:demo-recovery": "npm run build && node scripts/demo-recovery.mjs",
+    "demo:dev": "cd apps/demo && npm run dev",
+    "move:build": "cd packages/move && sui move build",
+    "move:test": "cd packages/move && sui move test",
+    "clean": "find packages -name dist -type d -prune -exec rm -rf {} +"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

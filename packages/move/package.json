@@ -1,0 +1,16 @@
+{
+  "name": "@walruskit/move",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Sui Move policy module for WalrusKit recovery capsules.",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "scripts": {
+    "build": "echo 'Run sui move build in this package.'",
+    "test": "sui move test"
+  }
+}

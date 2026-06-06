@@ -1,0 +1,8 @@
+[package]
+name = "walruskit"
+edition = "2024.beta"
+
+[dependencies]
+
+[addresses]
+walruskit = "0x0"

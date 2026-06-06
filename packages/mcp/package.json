@@ -1,0 +1,26 @@
+{
+  "name": "@walruskit/mcp",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "MCP server definitions for AI agents working with WalrusKit.",
+  "bin": {
+    "walruskit-mcp": "./bin/walruskit-mcp.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@walruskit/headless": "0.1.0",
+    "@walruskit/sdk": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

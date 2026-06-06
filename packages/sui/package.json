@@ -1,0 +1,23 @@
+{
+  "name": "@walruskit/sui",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Sui capsule helpers and transaction plans for WalrusKit.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@walruskit/core": "0.1.0",
+    "@walruskit/tatum": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

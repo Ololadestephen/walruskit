@@ -1,0 +1,22 @@
+{
+  "name": "@walruskit/next",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Next.js environment and route helpers for WalrusKit.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@walruskit/sdk": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

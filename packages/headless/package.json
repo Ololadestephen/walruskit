@@ -1,0 +1,22 @@
+{
+  "name": "@walruskit/headless",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Framework-agnostic recovery state machines for WalrusKit.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@walruskit/core": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "@walruskit/sdk",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "High-level SDK for programmable recovery of encrypted Walrus blobs on Sui.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@walruskit/core": "0.1.0",
+    "@walruskit/crypto": "0.1.0",
+    "@walruskit/sui": "0.1.0",
+    "@walruskit/tatum": "0.1.0",
+    "@walruskit/walrus": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@walruskit/verifier",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Walrus blob verification helpers for WalrusKit capsules.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@walruskit/core": "0.1.0",
+    "@walruskit/crypto": "0.1.0",
+    "@walruskit/walrus": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

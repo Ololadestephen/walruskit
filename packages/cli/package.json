@@ -1,0 +1,29 @@
+{
+  "name": "@walruskit/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Command-line tooling for WalrusKit.",
+  "bin": {
+    "walruskit": "./bin/walruskit.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@walruskit/core": "0.1.0",
+    "@walruskit/policies": "0.1.0",
+    "@walruskit/sdk": "0.1.0",
+    "@walruskit/sui": "0.1.0",
+    "@walruskit/tatum": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
