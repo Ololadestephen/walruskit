@@ -71,20 +71,20 @@ function findCapsuleId(result, packageId) {
 async function main() {
   loadDotEnv();
 
-  const packageId = requireEnv("RECOVERKIT_PACKAGE_ID", "Publish the Move package first.");
+  const packageId = requireEnv("WALRUSKIT_PACKAGE_ID", "Publish the Move package first.");
   const apiKey = requireEnv("TATUM_API_KEY", "Add it to .env from dashboard.tatum.io.");
   const owner = activeAddress();
-  const beneficiary = process.env.RECOVERKIT_BENEFICIARY ?? owner;
-  const guardians = (process.env.RECOVERKIT_GUARDIANS ?? owner)
+  const beneficiary = process.env.WALRUSKIT_BENEFICIARY ?? owner;
+  const guardians = (process.env.WALRUSKIT_GUARDIANS ?? owner)
     .split(",")
     .map((address) => address.trim())
     .filter(Boolean);
-  const threshold = Number(process.env.RECOVERKIT_THRESHOLD ?? 1);
-  const heartbeatMs = Number(process.env.RECOVERKIT_HEARTBEAT_MS ?? 24 * 60 * 60 * 1000);
-  const finalDelayMs = Number(process.env.RECOVERKIT_FINAL_DELAY_MS ?? 60 * 60 * 1000);
+  const threshold = Number(process.env.WALRUSKIT_THRESHOLD ?? 1);
+  const heartbeatMs = Number(process.env.WALRUSKIT_HEARTBEAT_MS ?? 24 * 60 * 60 * 1000);
+  const finalDelayMs = Number(process.env.WALRUSKIT_FINAL_DELAY_MS ?? 60 * 60 * 1000);
 
   if (threshold < 1 || threshold > guardians.length) {
-    throw new Error(`RECOVERKIT_THRESHOLD must be between 1 and guardian count (${guardians.length}).`);
+    throw new Error(`WALRUSKIT_THRESHOLD must be between 1 and guardian count (${guardians.length}).`);
   }
 
   const kit = createWalrusKit({
@@ -148,11 +148,11 @@ async function main() {
   }
 
   upsertEnv({
-    RECOVERKIT_CAPSULE_ID: capsuleId,
-    RECOVERKIT_LAST_BLOB_ID: blob.blobId,
-    RECOVERKIT_LAST_BLOB_HASH: blob.hash,
-    RECOVERKIT_LAST_BLOB_SIZE: String(blob.size),
-    RECOVERKIT_LAST_CAPSULE_TX: digest,
+    WALRUSKIT_CAPSULE_ID: capsuleId,
+    WALRUSKIT_LAST_BLOB_ID: blob.blobId,
+    WALRUSKIT_LAST_BLOB_HASH: blob.hash,
+    WALRUSKIT_LAST_BLOB_SIZE: String(blob.size),
+    WALRUSKIT_LAST_CAPSULE_TX: digest,
   });
 
   console.log(`- Transaction digest: ${digest}`);
@@ -167,7 +167,7 @@ main().catch((error) => {
   console.error(error instanceof Error ? error.message : String(error));
   console.error("");
   console.error("Checklist:");
-  console.error("- RECOVERKIT_PACKAGE_ID is set in .env");
+  console.error("- WALRUSKIT_PACKAGE_ID is set in .env");
   console.error("- TATUM_API_KEY is set in .env");
   console.error("- Active Sui wallet has testnet gas");
   console.error("- Optional guardian env values are valid Sui addresses");

@@ -97,11 +97,11 @@ function printStatus(label, capsule) {
 async function main() {
   loadDotEnv();
 
-  const packageId = requireEnv("RECOVERKIT_PACKAGE_ID", "Publish the Move package first.");
+  const packageId = requireEnv("WALRUSKIT_PACKAGE_ID", "Publish the Move package first.");
   const apiKey = requireEnv("TATUM_API_KEY", "Add it to .env from dashboard.tatum.io.");
   const actor = activeAddress();
-  const heartbeatMs = Number(process.env.RECOVERKIT_DEMO_HEARTBEAT_MS ?? 5000);
-  const finalDelayMs = Number(process.env.RECOVERKIT_DEMO_FINAL_DELAY_MS ?? 5000);
+  const heartbeatMs = Number(process.env.WALRUSKIT_DEMO_HEARTBEAT_MS ?? 5000);
+  const finalDelayMs = Number(process.env.WALRUSKIT_DEMO_FINAL_DELAY_MS ?? 5000);
 
   const kit = createWalrusKit({
     tatum: {
@@ -215,12 +215,12 @@ async function main() {
   printStatus("Final status", finalCapsule);
 
   upsertEnv({
-    RECOVERKIT_DEMO_CAPSULE_ID: capsuleId,
-    RECOVERKIT_DEMO_BLOB_ID: blob.blobId,
-    RECOVERKIT_DEMO_BLOB_HASH: blob.hash,
-    RECOVERKIT_DEMO_CREATE_TX: digestOf(createResult),
-    RECOVERKIT_DEMO_REQUEST_TX: digestOf(requestResult),
-    RECOVERKIT_DEMO_APPROVE_TX: digestOf(approveResult),
+    WALRUSKIT_DEMO_CAPSULE_ID: capsuleId,
+    WALRUSKIT_DEMO_BLOB_ID: blob.blobId,
+    WALRUSKIT_DEMO_BLOB_HASH: blob.hash,
+    WALRUSKIT_DEMO_CREATE_TX: digestOf(createResult),
+    WALRUSKIT_DEMO_REQUEST_TX: digestOf(requestResult),
+    WALRUSKIT_DEMO_APPROVE_TX: digestOf(approveResult),
   });
 
   console.log("");
@@ -233,7 +233,7 @@ main().catch((error) => {
   console.error(error instanceof Error ? error.message : String(error));
   console.error("");
   console.error("Checklist:");
-  console.error("- RECOVERKIT_PACKAGE_ID is set in .env");
+  console.error("- WALRUSKIT_PACKAGE_ID is set in .env");
   console.error("- TATUM_API_KEY is set in .env");
   console.error("- Active Sui wallet has enough testnet SUI");
   process.exitCode = 1;

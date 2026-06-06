@@ -46,8 +46,8 @@ if (command === "policy") {
   console.log("Run walruskit-mcp to expose Walrus recovery tools to AI agents.");
 } else if (command === "capsule:create-plan") {
   loadDotEnv();
-  const packageId = requireEnv("RECOVERKIT_PACKAGE_ID");
-  const capsuleId = process.env.RECOVERKIT_CAPSULE_ID ?? "0xCAPSULE_OBJECT_ID";
+  const packageId = requireEnv("WALRUSKIT_PACKAGE_ID");
+  const capsuleId = process.env.WALRUSKIT_CAPSULE_ID ?? "0xCAPSULE_OBJECT_ID";
   const move = { packageId };
   printPlan("heartbeat", heartbeatMoveCall(move, capsuleId));
   printPlan("request recovery", requestRecoveryMoveCall(move, capsuleId));
@@ -60,7 +60,7 @@ if (command === "policy") {
     rpcUrl: process.env.TATUM_SUI_RPC_URL,
     network: "testnet",
   });
-  const capsule = await getCapsule(client, requireEnv("RECOVERKIT_CAPSULE_ID"));
+  const capsule = await getCapsule(client, requireEnv("WALRUSKIT_CAPSULE_ID"));
   const status = evaluateRecovery(capsule);
   console.log(`Capsule: ${capsule.id}`);
   console.log(`Owner: ${capsule.policy.owner}`);

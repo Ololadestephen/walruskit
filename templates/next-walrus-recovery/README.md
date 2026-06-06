@@ -18,7 +18,7 @@ TATUM_API_KEY=
 TATUM_SUI_RPC_URL=https://sui-testnet.gateway.tatum.io
 WALRUS_PUBLISHER_URL=
 WALRUS_AGGREGATOR_URL=
-RECOVERKIT_PACKAGE_ID=
+WALRUSKIT_PACKAGE_ID=
 ```
 
 Phase 3 is intentionally app-specific and is left for the demo implementation.

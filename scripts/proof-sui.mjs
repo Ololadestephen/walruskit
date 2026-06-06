@@ -45,8 +45,8 @@ async function main() {
 
   const apiKey = requireEnv("TATUM_API_KEY", "Add it to .env from dashboard.tatum.io.");
   const rpcUrl = process.env.TATUM_SUI_RPC_URL ?? "https://sui-testnet.gateway.tatum.io";
-  const packageId = process.env.RECOVERKIT_PACKAGE_ID;
-  const capsuleId = process.env.RECOVERKIT_CAPSULE_ID;
+  const packageId = process.env.WALRUSKIT_PACKAGE_ID;
+  const capsuleId = process.env.WALRUSKIT_CAPSULE_ID;
 
   const client = createTatumSuiClient({ apiKey, rpcUrl, network: "testnet" });
   const chainId = await client.request("sui_getChainIdentifier");
@@ -64,7 +64,7 @@ async function main() {
     console.log(`- Published package/object read through Tatum: ${packageId}`);
     console.log(`- Object type: ${objectType}`);
   } else {
-    console.log("- RECOVERKIT_PACKAGE_ID not set, skipping published package lookup.");
+    console.log("- WALRUSKIT_PACKAGE_ID not set, skipping published package lookup.");
   }
 
   if (capsuleId) {
@@ -87,10 +87,10 @@ async function main() {
       console.log(`- Current blocker: ${status.blockers[0]}`);
     }
   } else {
-    console.log("- RECOVERKIT_CAPSULE_ID not set, skipping live capsule lookup.");
+    console.log("- WALRUSKIT_CAPSULE_ID not set, skipping live capsule lookup.");
   }
 
-  const move = { packageId: packageId ?? "0xRECOVERKIT_PACKAGE_ID" };
+  const move = { packageId: packageId ?? "0xWALRUSKIT_PACKAGE_ID" };
   const draft = createCapsuleDraft({
     owner: "0x1",
     beneficiary: "0x2",
@@ -127,7 +127,7 @@ main().catch((error) => {
   console.error("");
   console.error("Checklist:");
   console.error("- TATUM_API_KEY is set in .env");
-  console.error("- RECOVERKIT_PACKAGE_ID is set after publishing the Move package");
-  console.error("- Optional RECOVERKIT_CAPSULE_ID points to a shared capsule object");
+  console.error("- WALRUSKIT_PACKAGE_ID is set after publishing the Move package");
+  console.error("- Optional WALRUSKIT_CAPSULE_ID points to a shared capsule object");
   process.exitCode = 1;
 });

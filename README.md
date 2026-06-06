@@ -19,7 +19,7 @@ Walrus gives builders decentralized blob storage, but production apps still need
 
 WalrusKit packages those pieces into a reusable recovery layer.
 
-## How It Works
+## Technical Architecture
 
 ```text
 plaintext in app
@@ -33,7 +33,35 @@ plaintext in app
 
 Walrus stores the encrypted data. Sui decides when recovery is allowed. Tatum provides the RPC path used by the toolkit and proof scripts.
 
+### Layer Responsibilities
+
+| Layer | Responsibility | Package |
+| --- | --- | --- |
+| Local encryption | Encrypt text/files before data leaves the user's machine. Plaintext is never uploaded to Walrus. | `@walruskit/crypto` |
+| Walrus storage | Upload/download encrypted bytes through publisher and aggregator endpoints. | `@walruskit/walrus` |
+| Sui policy | Anchor owner, beneficiary, guardians, heartbeat timeout, final delay, blob ID, hash, and byte size. | `@walruskit/move`, `@walruskit/sui` |
+| Tatum RPC | Read package objects, capsule state, transaction data, and recovery status through Tatum's Sui gateway. | `@walruskit/tatum` |
+| Verification | Confirm downloaded Walrus bytes match trusted hash and size metadata before recovery/decryption. | `@walruskit/verifier` |
+| App/agent surface | Provide SDK calls, CLI proofs, React/headless helpers, templates, and MCP tools. | `@walruskit/sdk`, `@walruskit/cli`, `@walruskit/mcp` |
+
+### Recovery State Machine
+
+```text
+owner active
+  -> heartbeat keeps recovery locked
+  -> heartbeat timeout passes
+beneficiary requests recovery
+  -> guardians approve until threshold is met
+  -> final delay gives owner a cancellation window
+recovery ready
+  -> app/agent can verify Walrus blob metadata and release decryptable access
+```
+
+This separation keeps the payload private while making the recovery policy independently verifiable. Walrus never receives plaintext, Sui never stores the secret, and Tatum RPC gives the toolkit a repeatable way to inspect the live policy state.
+
 ## Live Testnet Proof
+
+These IDs are live proof anchors for the current testnet deployment and demo flows.
 
 | Item | Value |
 | --- | --- |
@@ -44,19 +72,20 @@ Walrus stores the encrypted data. Sui decides when recovery is allowed. Tatum pr
 | Live Walrus blob | `1cwtvAyFuiplx-9Gpxwfj68blKSDZzEoolSzA0FKmWc` |
 | Full demo capsule | `0x19a94707ecc5ccee9186af782a1c934a73a32a8e9add1b80238bd209d66c483a` |
 
-## Hackathon Requirements
+### Verification Targets
 
-WalrusKit directly maps to the Tatum + Sui + Walrus hackathon requirements:
+Judges can verify the integration from the terminal:
 
-- **Tatum API key:** used by `@walruskit/tatum` as the `x-api-key` header.
-- **Tatum Sui RPC nodes:** used for Sui JSON-RPC reads, package lookup, transaction inspection, and capsule status.
-- **Walrus storage:** encrypted payloads are uploaded as Walrus blobs.
-- **Meaningful Walrus integration:** the Sui capsule stores blob ID, hash, and size, and `@walruskit/verifier` checks downloaded bytes against that metadata.
-- **Sui testnet:** recovery rules are enforced by a published Move module and shared Capsule object.
-- **MCP encouraged:** `@walruskit/mcp` exposes recovery status and Move-call planning tools to AI agents.
-- **Technical quality:** the repo includes typed packages, proof scripts, CLI helpers, templates, docs, and a Next.js demo/docs site.
+```bash
+npm run build
+npm run proof:walrus-tatum
+npm run move:build
+npm run move:test
+npm run proof:sui
+npm run capsule:demo-recovery
+```
 
-WalrusKit does not rely on a separate Tatum Data API. The required Tatum integration is the Tatum API key plus Tatum's Sui RPC gateway.
+Those commands cover the full technical path: TypeScript packages, local encryption, Walrus upload/download, Tatum Sui RPC reads, Move policy validation, live capsule inspection, wallet-ready call planning, and the recovery lifecycle.
 
 ## Package Surface
 
@@ -140,8 +169,8 @@ Create `.env` in the repo root:
 ```bash
 TATUM_API_KEY=
 TATUM_SUI_RPC_URL=https://sui-testnet.gateway.tatum.io
-RECOVERKIT_PACKAGE_ID=0xfeaae2b29cf99a0bf5ad3bbac5bb3588c8d5245d1d236de2b0b5419eee0c08e1
-RECOVERKIT_CAPSULE_ID=0xe99b68fccb3d3d008347cff9f640f977aeaa122818bfc966ec962e58432bf74a
+WALRUSKIT_PACKAGE_ID=0xfeaae2b29cf99a0bf5ad3bbac5bb3588c8d5245d1d236de2b0b5419eee0c08e1
+WALRUSKIT_CAPSULE_ID=0xe99b68fccb3d3d008347cff9f640f977aeaa122818bfc966ec962e58432bf74a
 ```
 
 Optional Walrus overrides:
@@ -291,7 +320,7 @@ const rk = createWalrusKit({
     apiKey: process.env.TATUM_API_KEY,
   },
   move: {
-    packageId: process.env.RECOVERKIT_PACKAGE_ID!,
+    packageId: process.env.WALRUSKIT_PACKAGE_ID!,
   },
 });
 
@@ -357,4 +386,3 @@ scripts                   proof and lifecycle scripts
 - Full recovery lifecycle proof: complete
 
 The automated lifecycle proof uses a single funded testnet wallet as owner, beneficiary, and guardian so the backend flow can run in one command. The policy and SDK support separate addresses for real applications.
-

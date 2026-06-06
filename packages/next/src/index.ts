@@ -5,7 +5,7 @@ export type WalrusKitEnv = {
   TATUM_SUI_RPC_URL?: string;
   WALRUS_PUBLISHER_URL?: string;
   WALRUS_AGGREGATOR_URL?: string;
-  RECOVERKIT_PACKAGE_ID?: string;
+  WALRUSKIT_PACKAGE_ID?: string;
 };
 
 export function configFromEnv(env: WalrusKitEnv): WalrusKitConfig {
@@ -23,7 +23,7 @@ export function configFromEnv(env: WalrusKitEnv): WalrusKitConfig {
       publisherUrl: env.WALRUS_PUBLISHER_URL,
       aggregatorUrl: env.WALRUS_AGGREGATOR_URL,
     },
-    move: env.RECOVERKIT_PACKAGE_ID ? { packageId: env.RECOVERKIT_PACKAGE_ID } : undefined,
+    move: env.WALRUSKIT_PACKAGE_ID ? { packageId: env.WALRUSKIT_PACKAGE_ID } : undefined,
   };
 }
 
