@@ -2,6 +2,8 @@
 
 Programmable recovery infrastructure for encrypted Walrus blobs on Sui.
 
+**Live demo:** https://walruskit.vercel.app/
+
 WalrusKit is a 19-package developer toolkit that helps apps encrypt sensitive data locally, store the ciphertext on Walrus, anchor recovery policy on Sui, read state through Tatum's Sui RPC, and expose the flow through SDKs, UI primitives, CLI tools, and an MCP server for AI agents.
 
 It is built for apps that need private data storage with a real recovery path: notes, files, credentials, agent memory, team secrets, game assets, and any payload that should be recoverable only when clear on-chain conditions pass.

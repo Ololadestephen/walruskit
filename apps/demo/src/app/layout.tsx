@@ -7,6 +7,14 @@ export const metadata: Metadata = {
   title: "WalrusKit | Programmable Walrus Recovery",
   description:
     "WalrusKit is infrastructure for programmable recovery of encrypted Walrus blobs on Sui, powered by Tatum RPC.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "1024x1024" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/icon.png",
+  },
 };
 
 export default function RootLayout({
